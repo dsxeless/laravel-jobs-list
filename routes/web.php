@@ -2,14 +2,15 @@
 
 use App\Http\Controllers\MyController;
 use App\Http\Middleware\LogMiddleware;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Route;
 use App\Models\Job;
 
 use function Psy\bin;
 
 Route::get('/', function () { 
-    return view('home'); 
+    $job = Job::all(); 
+
+    dd($job);
 });
 
 Route::get('/jobs', function () {
@@ -19,10 +20,7 @@ Route::get('/jobs', function () {
 });
 
 Route::get('/jobs/{id}', function ($id) {
-    
-    $job = Arr::first(Job::all(), function ($job) use ($id) {
-        return $job['id'] == $id;
-    });
+    $job = Job::find($id);
 
     return view('job', [
         'job' => $job,
